@@ -55,7 +55,7 @@ After selecting paths, it recursively creates hardlinks while checking inode cou
 ## Usage
 
 ```bash
-./Interactive-Smart-Hardlinker.sh
+./interactive-smart-hardlinker.sh
 ```
 
 Run via SSH or any interactive terminal. The script will guide you through the process with prompts and menus.
@@ -65,8 +65,8 @@ Run via SSH or any interactive terminal. The script will guide you through the p
 ```bash
 git clone https://github.com/foxythefoxer/Interactive-Smart-Hardlinker.git
 cd Interactive-Smart-Hardlinker
-chmod +x Interactive-Smart-Hardlinker.sh
-./Interactive-Smart-Hardlinker.sh
+chmod +x interactive-smart-hardlinker.sh
+./interactive-smart-hardlinker.sh
 ```
 
 ## Configuration
