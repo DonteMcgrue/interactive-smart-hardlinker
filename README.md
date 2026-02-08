@@ -39,7 +39,7 @@ After selecting paths, it recursively creates hardlinks while checking inode cou
 
 - **Cannot span filesystems** - Source and destination directories must be on the same filesystem/partition. Hardlinks cannot cross filesystem boundaries (e.g., you cannot hardlink from `/dev/sda1` to `/dev/sdb1`). This is a fundamental limitation of how hardlinks work at the inode level.
 
-- **Files only, not directories** - Hardlinks can only be created for regular files. Directories cannot be hardlinked.
+- **Files only, not directories** - Hardlinks can only be created for regular files. Directories cannot be hardlinked. (This script will create new directories in the destination to preserve the source directory structure.)
 
 - **Shared inode behavior** - All hardlinks point to the same inode, meaning changes to the file content through any hardlink affect all other hardlinks. If you edit a file through one hardlink, the changes appear in all locations.
 
