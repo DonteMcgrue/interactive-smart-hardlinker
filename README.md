@@ -33,6 +33,20 @@ The script walks you through selecting source and destination directories via in
 
 After selecting paths, it recursively creates hardlinks while checking inode counts to prevent accidentally hardlinking files multiple times. Optionally save a detailed log file with timestamps for troubleshooting.
 
+## Important Notes About Hardlinks
+
+**Hardlinks have inherent limitations you should understand before using this script:**
+
+- **Cannot span filesystems** - Source and destination directories must be on the same filesystem/partition. Hardlinks cannot cross filesystem boundaries (e.g., you cannot hardlink from `/dev/sda1` to `/dev/sdb1`). This is a fundamental limitation of how hardlinks work at the inode level.
+
+- **Files only, not directories** - Hardlinks can only be created for regular files. Directories cannot be hardlinked.
+
+- **Shared inode behavior** - All hardlinks point to the same inode, meaning changes to the file content through any hardlink affect all other hardlinks. If you edit a file through one hardlink, the changes appear in all locations.
+
+- **Deletion behavior** - Deleting one hardlink doesn't delete the file data until ALL hardlinks to that inode are removed. The file persists as long as at least one hardlink remains.
+
+**For Unraid users following Trash Guides:** The recommended directory structure (`/mnt/user/data/torrents` and `/mnt/user/data/media`) is specifically designed to keep both paths on the same filesystem, making hardlinks possible. If you've customized your setup, verify your source and destination are on the same underlying filesystem.
+
 ## Requirements
 
 - Linux system with Bash
