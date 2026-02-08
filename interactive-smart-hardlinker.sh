@@ -3,8 +3,13 @@
 #################################################################################################################################################
 # Interactive-Smart-Hardlinker
 #
-# This script hardlinks files from /mnt/user/data/torrents to /mnt/user/data/media 
-# following the Trash Guides directory structure for Unraid.
+# By default his script look for the directory directory structure
+# /mnt/user/data/torrents and /mnt/user/data/media for the source and destination. 
+# This directory structure follows the recommendations found in Trash Guides for Unraid.
+# https://trash-guides.info/File-and-Folder-Structure/How-to-set-up/Unraid/
+#
+# Feel free to change the 'Base paths' as needed if you do not use this structure.
+#
 # Features interactive menus for source/destination selection, automatic inode checking to prevent duplicate 
 # hardlinks, and optional verbose logging.
 #
@@ -24,7 +29,7 @@ YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Base paths (fixed)
+# Base paths (Change as needed)
 BASE_SOURCE="/mnt/user/data/torrents"
 BASE_DEST="/mnt/user/data/media"
 
